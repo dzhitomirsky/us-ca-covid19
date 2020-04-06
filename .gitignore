@@ -8,4 +8,6 @@ covid-us-data/src/main/resources/*
 
 covid-us-data-ui/node_modules
 covid-us-data-ui/src/data/*
+covid-us-data-ui/build
 out
+
