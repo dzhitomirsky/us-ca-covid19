@@ -1,0 +1,11 @@
+.idea
+**/*.iml
+
+covid-us-data/output
+covid-us-data/project
+covid-us-data/target
+covid-us-data/src/main/resources/*
+
+covid-us-data-ui/node_modules
+covid-us-data-ui/src/data/*
+out
