@@ -31,7 +31,7 @@ jobs:
             cd ~
             git clone -b gh-pages https://github.com/dzhitomirsky/us-ca-covid19 gh-pages
       - run:
-          name: Replace static content
+          name: Replace static content of hg-pages branch
           command: |
             cd ~
             cp -rf ~/ui-build/*  ~/gh-pages
