@@ -1,0 +1,41 @@
+version: 2
+jobs:
+  build:
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build data
+          command: |
+            cd covid-us-data
+            docker build -t covid-us-data:latest .
+            docker run covid-us-data:latest sbt run
+      - run:
+          name: Copy data
+          command: docker cp $(docker ps -l -q):/covid-us-data/output/. ./covid-us-data-ui/src/data
+      - run:
+          name: Build ui package
+          command: |
+            cd covid-us-data-ui
+            docker build -t covid-us-ui:latest .
+            docker run covid-us-ui:latest npm run build
+      - run:
+          name: Extract website
+          command: |
+            mkdir ~/ui-build
+            docker cp $(docker ps -l -q):/covid-us-ui/build/. ~/ui-build
+      - run:
+          name: Clone current version of gh-pages branch
+          command: |
+            cd ~
+            git clone -b gh-pages https://github.com/dzhitomirsky/us-ca-covid19 gh-pages
+      - run:
+          name: Replace static content
+          command: |
+            cd ~
+            cp -rf ~/ui-build/*  ~/gh-pages
+            git status
+      - store_artifacts:
+          path: ~/gh-pages
+

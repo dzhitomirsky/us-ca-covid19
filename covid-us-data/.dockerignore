@@ -1,5 +1,8 @@
 output/*
 target
-.git/*
+.git
 .gitignore
 src/main/resources/*
+.idea
+*.iml
+
