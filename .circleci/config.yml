@@ -44,7 +44,7 @@ jobs:
             git add --all
             git commit -m `date "+update-%Y%m%d%H%M"`
             git tag `date "+update-%Y%m%d%H%M"`
-            git push --tags
+            git push --follow-tags
       - store_artifacts:
           path: ~/gh-pages
 
