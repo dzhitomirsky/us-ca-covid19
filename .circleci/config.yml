@@ -6,7 +6,7 @@ jobs:
 #      - image: ubuntu:14.04
     steps:
       - checkout
-      - setup_remote_docker
+#      - setup_remote_docker
       - run:
           name: Build data
           command: |
