@@ -37,8 +37,15 @@ jobs:
           command: |
             cd ~
             cp -rf ~/ui-build/*  ~/gh-pages
-            cd gh-pages
-            git status
+      - run:
+          name: Push built site
+          command: |
+            cd ~/gh-pages
+            git add --all
+            export NOW=$(date)
+            git commit -m "Update for ${NOW}"
+            git tag -a "${NOW}" -m "Latest update"
+            git push -q https://${GH_TOKEN}@github.com/dzhitomirsky/us-ca-covid19.git --tags
       - store_artifacts:
           path: ~/gh-pages
 
