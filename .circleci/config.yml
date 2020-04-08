@@ -37,6 +37,7 @@ jobs:
           command: |
             cd ~
             cp -rf ~/ui-build/*  ~/gh-pages
+            cd gh-pages
             git status
       - store_artifacts:
           path: ~/gh-pages
