@@ -19,9 +19,6 @@ workflows:
 jobs:
   build:
     machine: true
-#    branches:
-#      ignore:
-#        - gh-pages
     steps:
       - checkout
       - add_ssh_keys:
@@ -61,8 +58,7 @@ jobs:
           name: Push built site
           command: |
             cd ~/gh-pages
-            git add --all
-            git commit -m "`date "+Update for %Y-%m-%d-%H-%M [ci skip]"`"
+            git diff --quiet && git diff --staged --quiet || git commit -am "`date "+Update for %Y-%m-%d-%H-%M [ci skip]"`"
             git tag `date "+%Y-%m-%d-%H-%M"`
             git push --follow-tags
       - store_artifacts:
