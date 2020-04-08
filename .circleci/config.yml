@@ -12,6 +12,9 @@ workflows:
             branches:
               only:
                 - master
+    jobs:
+      - build
+
 jobs:
   build:
     machine: true
