@@ -1,0 +1,66 @@
+version: 2
+
+workflows:
+  version: 2
+  commit:
+    jobs:
+      - build
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - build
+
+jobs:
+  build:
+    machine: true
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "6e:c4:96:f9:4a:27:37:ef:b2:3d:90:b1:d0:3f:8b:a5"
+      - run:
+          name: Build data
+          command: |
+            cd covid-us-data
+            docker build -t covid-us-data:latest .
+            docker run covid-us-data:latest sbt run
+      - run:
+          name: Copy data
+          command: docker cp $(docker ps -l -q):/covid-us-data/output/. ./covid-us-data-ui/src/data
+      - run:
+          name: Build ui package
+          command: |
+            cd covid-us-data-ui
+            docker build -t covid-us-ui:latest .
+            docker run covid-us-ui:latest npm run build
+      - run:
+          name: Extract website
+          command: |
+            mkdir ~/ui-build
+            docker cp $(docker ps -l -q):/covid-us-data-ui/build/. ~/ui-build
+      - run:
+          name: Clone current version of gh-pages branch
+          command: |
+            cd ~
+            git clone -b gh-pages https://github.com/dzhitomirsky/us-ca-covid19 gh-pages
+      - run:
+          name: Replace static content of hg-pages branch
+          command: |
+            cd ~
+            cp -rf ~/ui-build/*  ~/gh-pages
+      - run:
+          name: Push built site
+          command: |
+            cd ~/gh-pages
+            git diff --quiet && git diff --staged --quiet || git commit -am "`date "+Update for %Y-%m-%d-%H-%M [ci skip]"`"
+            git tag `date "+%Y-%m-%d-%H-%M"`
+            git push --follow-tags
+      - store_artifacts:
+          path: ~/gh-pages
+
