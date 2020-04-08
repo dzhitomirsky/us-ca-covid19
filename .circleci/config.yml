@@ -2,11 +2,11 @@ version: 2
 jobs:
   build:
     machine: true
-#    docker:
-#      - image: ubuntu:14.04
     steps:
       - checkout
-#      - setup_remote_docker
+      - add_ssh_keys:
+          fingerprints:
+            - "6e:c4:96:f9:4a:27:37:ef:b2:3d:90:b1:d0:3f:8b:a5"
       - run:
           name: Build data
           command: |
@@ -45,7 +45,7 @@ jobs:
             export NOW=$(date)
             git commit -m "Update for ${NOW}"
             git tag -a "${NOW}" -m "Latest update"
-            git push -q https://${GH_TOKEN}@github.com/dzhitomirsky/us-ca-covid19.git --tags
+            git push --tags
       - store_artifacts:
           path: ~/gh-pages
 
