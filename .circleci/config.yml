@@ -44,7 +44,7 @@ jobs:
             git add --all
             export NOW=$(date)
             git commit -m "Update for ${NOW}"
-            git tag -a "${NOW}" -m "Latest update"
+            git tag  -m "Update for ${NOW}"
             git push --tags
       - store_artifacts:
           path: ~/gh-pages
