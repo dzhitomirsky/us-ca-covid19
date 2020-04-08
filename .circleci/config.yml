@@ -1,9 +1,10 @@
 version: 2
+
 workflows:
   version: 2
   commit:
     jobs:
-      - build-gh-pages
+      - build
   nightly:
     triggers:
       - schedule:
@@ -13,14 +14,14 @@ workflows:
               only:
                 - master
     jobs:
-      - build-gh-pages
+      - build
 
 jobs:
-  build-gh-pages:
+  build:
     machine: true
-    branches:
-      ignore:
-        - gh-pages
+#    branches:
+#      ignore:
+#        - gh-pages
     steps:
       - checkout
       - add_ssh_keys:
