@@ -26,7 +26,7 @@ jobs:
           name: Extract website
           command: |
             mkdir ~/ui-build
-            docker cp $(docker ps -l -q):/covid-us-ui/build/. ~/ui-build
+            docker cp $(docker ps -l -q):/covid-us-data-ui/build/. ~/ui-build
       - run:
           name: Clone current version of gh-pages branch
           command: |
