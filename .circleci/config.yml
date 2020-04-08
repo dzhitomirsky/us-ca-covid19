@@ -42,9 +42,8 @@ jobs:
           command: |
             cd ~/gh-pages
             git add --all
-            export NOW=$(date)
-            git commit -m "Update for ${NOW}"
-            git tag  -m "Update for ${NOW}"
+            git commit -m `date "+update-%Y%m%d%H%M"`
+            git tag `date "+update-%Y%m%d%H%M"`
             git push --tags
       - store_artifacts:
           path: ~/gh-pages
