@@ -3,12 +3,13 @@ version: 2
 workflows:
   version: 2
   commit:
+    filters:
+      branches:
+        only:
+          - master
     jobs:
       - build
-          filters:
-            branches:
-              only:
-                - master
+
   nightly:
     triggers:
       - schedule:
