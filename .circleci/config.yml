@@ -66,6 +66,11 @@ jobs:
             git diff --quiet && git diff --staged --quiet || git commit -am "`date "+Update for %Y-%m-%d-%H-%M [ci skip]"`"
             git tag `date "+%Y-%m-%d-%H-%M"`
             git push --follow-tags
+      - run:
+          name: Remove git artifacts
+          command: |
+            cd ~/gh-pages
+            rm -rf .git .gitignore
       - store_artifacts:
           path: ~/gh-pages
 
