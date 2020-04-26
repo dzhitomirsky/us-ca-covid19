@@ -25,7 +25,7 @@ object FileUtils {
   }
 
 
-  def usaReportDs2Json(data: List[Any], filePath: String) = {
+  def usaReportDs2Json(data: Any, filePath: String) = {
     val mapper = new ObjectMapper() with ScalaObjectMapper
     mapper.registerModule(DefaultScalaModule)
 

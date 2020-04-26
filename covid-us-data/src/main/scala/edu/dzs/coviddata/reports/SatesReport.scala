@@ -1,17 +1,16 @@
 package edu.dzs.coviddata.reports
 
-import edu.dzs.coviddata.valueobjects.{RawDataRowRow, StateReportRow}
+import edu.dzs.coviddata.valueobjects.{RawDataRow, StateReportRow}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 object SatesReport {
-  def buildStatesReport(data: Dataset[RawDataRowRow], spark: SparkSession): List[Any] = {
+  def buildStatesReport(data: Dataset[RawDataRow], spark: SparkSession): List[Any] = {
     import org.apache.spark.sql.expressions.scalalang.typed
     import spark.implicits._
 
     data
       .filter(row =>
-        row.country == "US"
-          && row.province.contains(',')
+          row.province.contains(',')
           && !row.province.contains('.')
           && !row.province.contains('(')
           && !row.province.contains(')')

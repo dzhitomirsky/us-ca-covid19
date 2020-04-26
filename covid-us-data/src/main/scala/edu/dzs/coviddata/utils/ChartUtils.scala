@@ -13,7 +13,7 @@ object ChartUtils {
           val middle = triplet(1)
           val last = triplet(2)
 
-          if(middle.active < first.active / 10) {
+          if(middle.active < first.active / 3) {
             middle.active = (first.active + last.active) /2
             middle.deaths = (first.deaths + last.deaths) /2
             middle.recovered = (first.recovered + last.recovered) /2

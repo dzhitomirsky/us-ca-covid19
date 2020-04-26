@@ -7,14 +7,12 @@ function CovidBarChartReport({data, xDataKey, title}) {
     return (
         <ReportContainer title={title}>
             <BarChart
-                width={window.innerWidth}
+                width={window.innerWidth / 2}
                 height={800}
                 data={data}
-                margin={{
-                    top: 5, right: 30, left: 20, bottom:100,
-                }}
+                margin={{top: 20, right: 20, bottom: 50, left: 50}}
             >
-                <XAxis dataKey={xDataKey} angle={-45} textAnchor="end" interval={0}/>
+                <XAxis dataKey={xDataKey} angle={-45} textAnchor="end" /*interval={0}*//>
                 <YAxis/>
                 <Tooltip/>
                 <Legend verticalAlign="middle" align="center"/>

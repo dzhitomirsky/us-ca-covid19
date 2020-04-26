@@ -1,6 +1,6 @@
 package edu.dzs.coviddata.valueobjects
 
-case class RawDataRowRow(
+case class RawDataRow(
                       country: String,
                       province: String,
                       lastUpdate: String,

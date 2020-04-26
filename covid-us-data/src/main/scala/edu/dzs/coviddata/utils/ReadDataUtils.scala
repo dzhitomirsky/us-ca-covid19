@@ -2,7 +2,7 @@ package edu.dzs.coviddata.utils
 
 import edu.dzs.coviddata.utils.FileUtils.listDataFiles
 import edu.dzs.coviddata.utils.MappingUtils.dfRow2ReportRow
-import edu.dzs.coviddata.valueobjects.RawDataRowRow
+import edu.dzs.coviddata.valueobjects.RawDataRow
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 object ReadDataUtils {
@@ -12,7 +12,7 @@ object ReadDataUtils {
     "inferSchema" -> "true"
   )
 
-  def readFilesToDs(spark: SparkSession, dataFolder: String): Dataset[RawDataRowRow] = {
+  def readFilesToDs(spark: SparkSession, dataFolder: String): Dataset[RawDataRow] = {
     import spark.implicits._
 
     val files = listDataFiles(dataFolder)
@@ -20,14 +20,14 @@ object ReadDataUtils {
     // as long is csv file mapping is different in different csv files we have
     // to read them separately because otherwise Spark messes up column order
 
-    val dataSets: Seq[Dataset[RawDataRowRow]] = files.map(filePath =>
+    val dataSets: Seq[Dataset[RawDataRow]] = files.map(filePath =>
       spark
         .read
         .options(sparkReadOption)
         .csv(filePath)
         .map(dfRow2ReportRow)
     )
-    val unionDs = spark.emptyDataset[RawDataRowRow]
+    val unionDs = spark.emptyDataset[RawDataRow]
 
     dataSets
       .foldLeft(unionDs){(acc, ds) => acc.union(ds)}

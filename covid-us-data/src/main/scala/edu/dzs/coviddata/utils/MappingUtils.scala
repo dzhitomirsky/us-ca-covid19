@@ -3,7 +3,7 @@ package edu.dzs.coviddata.utils
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 
-import edu.dzs.coviddata.valueobjects.RawDataRowRow
+import edu.dzs.coviddata.valueobjects.RawDataRow
 import org.apache.spark.sql.Row
 
 object MappingUtils {
@@ -104,7 +104,7 @@ object MappingUtils {
     )
   )
 
-  def dfRow2ReportRow(row: Row): RawDataRowRow = {
+  def dfRow2ReportRow(row: Row): RawDataRow = {
     def getField(fieldName: String) = {
       val mapping = mappings(fieldName)
       val colName = row
@@ -118,7 +118,7 @@ object MappingUtils {
       mapping.extractor(row, colName)
     }
 
-    RawDataRowRow(
+    RawDataRow(
       country = getField("country").asInstanceOf[String],
       province = getField("province").asInstanceOf[String],
       lastUpdate = getField("lastUpdate").asInstanceOf[String],

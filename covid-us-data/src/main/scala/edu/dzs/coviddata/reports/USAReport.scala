@@ -1,17 +1,16 @@
 package edu.dzs.coviddata.reports
 
-import edu.dzs.coviddata.valueobjects.{RawDataRowRow, USAReportRow}
-import edu.dzs.coviddata.utils.ChartUtils.smoothData
+import edu.dzs.coviddata.valueobjects.{RawDataRow, USAReportRow}
+import org.apache.spark.sql.expressions.scalalang.typed
 import org.apache.spark.sql.{Dataset, SparkSession}
+import edu.dzs.coviddata.utils.ChartUtils.smoothData
 
 object USAReport {
 
-  def buildUSAReport(data: Dataset[RawDataRowRow], spark: SparkSession): List[USAReportRow] = {
-    import org.apache.spark.sql.expressions.scalalang.typed
+  def buildUSAReport(data: Dataset[RawDataRow], spark: SparkSession): List[USAReportRow] = {
     import spark.implicits._
 
-    val result = data
-      .filter(row => row.country == "US")
+    smoothData(data
       .groupByKey(r => (r.lastUpdate, r.province))
       .mapGroups({ case (_, rows) => rows.maxBy(_.confirmed) })
       .groupByKey(_.lastUpdate)
@@ -23,7 +22,7 @@ object USAReport {
         deaths = row._4.toInt
       ))
       .orderBy("date")
-
-    smoothData(result.collect().toList)
+      .collect()
+      .toList)
   }
 }
