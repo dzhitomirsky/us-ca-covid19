@@ -3,7 +3,7 @@ import {CovidLineChartData} from "../prop-types";
 import {CovidLineChartReport} from "./components";
 
 function UsaReport({data}) {
-    return <CovidLineChartReport data={data} title={"USA total cases by date (data lag for 04.25 is under investigation)"}/>
+    return <CovidLineChartReport data={data} title={"USA total cases by date"}/>
 }
 
 UsaReport.propTypes = {

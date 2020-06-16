@@ -18,8 +18,8 @@ object USAReport {
       .map(row => USAReportRow(
         date = row._1,
         active = row._2.toInt,
-        recovered = row._3.toInt,
-        deaths = row._4.toInt
+        deaths = row._3.toInt,
+        recovered = row._4.toInt
       ))
       .orderBy("date")
       .collect()
